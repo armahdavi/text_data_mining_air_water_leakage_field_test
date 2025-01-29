@@ -36,9 +36,9 @@ with pd.ExcelWriter('file_list_all_docx.xlsx') as writer:
 
 ## NNOTE 1: Step 1 takes about 1 hr (it checks all 100s of 1000s of docx files in the two drives)
 
-########################################################
-### Step 2: Catching  test reports in all file lists ###
-########################################################
+#######################################################
+### Step 2: Catching test reports in all file lists ###
+#######################################################
 
 # Read word reader function files
 exec(open('word_file_reader.py').read())
