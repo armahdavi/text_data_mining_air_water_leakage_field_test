@@ -6,7 +6,6 @@ Created on Tue Nov 21 11:34:55 2023
 """
 
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from itertools import product
 
@@ -24,20 +23,16 @@ w_rank = dict(zip([k for k in w_rank.keys()] , range(1, len(w_rank) + 1)))
 
 # Aggregate over sample type and window manufacturer, encoding with dictionaries, and sorting
 df_agg = df.groupby(['Sample Type', 'W. Manuf.']).size().reset_index(name='Count')
-
 df_agg['Rank'] = df_agg['Sample Type'].replace(dict_rank)
 df_agg['Rank2'] = df_agg['W. Manuf.'].replace(w_rank)
-
 df_agg.sort_values(['Rank', 'Rank2'], ascending = [True, True], inplace = True)
 
 
 # Make tuples of sample type and manufacturers for new df generation and merging combined groups in the main df_agg
 combinations = list(product(df_agg['Sample Type'].unique(), df_agg['W. Manuf.'].unique()))
-
 df_new = pd.DataFrame(combinations, columns = ['Sample Type', 'W. Manuf.'])
 df_new['Rank'] = df_new['Sample Type'].replace(dict_rank)
 df_new['Rank2'] = df_new['W. Manuf.'].replace(w_rank)
-
 df_new = df_new.merge(df_agg[['Rank', 'Rank2', 'Count']], on = ['Rank', 'Rank2'], how ='outer')
 df_new = df_new.fillna(0)
 
